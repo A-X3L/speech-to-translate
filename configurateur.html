@@ -202,6 +202,7 @@
                 <label>Langue parlée (Source) :</label>
                 <select id="sourceLang" onchange="updatePreview()">
                     <option value="fr" selected>Français (fr)</option>
+                    <option value="auto">Détection Automatique (auto)</option>
                     <option value="en">Anglais (en)</option>
                     <option value="es">Espagnol (es)</option>
                     <option value="de">Allemand (de)</option>
@@ -218,6 +219,14 @@
                     <option value="ja">Japonais (ja)</option>
                 </select>
             </div>
+        </div>
+
+        <div class="form-group">
+            <label>Mode d'enregistrement (Microphone) :</label>
+            <select id="recordMode" onchange="updatePreview()">
+                <option value="hold" selected>Hold / Push-To-Talk (Maintenir la touche pour parler, relâcher pour traduire)</option>
+                <option value="toggle">Toggle (Appuyer une fois pour démarrer, réappuyer pour envoyer)</option>
+            </select>
         </div>
 
         <div class="form-row">
@@ -342,13 +351,14 @@
         const model = document.getElementById('modelSelect').value;
         const src = document.getElementById('sourceLang').value;
         const tgt = document.getElementById('targetLang').value;
+        const recordMode = document.getElementById('recordMode').value;
         const hk = document.getElementById('hotkey').value;
         const ghk = document.getElementById('gamepadHotkey').value;
         const autoEnter = document.getElementById('autoEnter').checked ? 'true' : 'false';
 
         document.getElementById('quotaInfo').innerText = quotas[model] || quotas['gemini-3.5-flash-lite'];
 
-        const envContent = `GEMINI_API_KEY=${key}\nGEMINI_MODEL=${model}\nSOURCE_LANG=${src}\nTARGET_LANG=${tgt}\nHOTKEY=${hk}\nGAMEPAD_HOTKEY=${ghk}\nAUTO_ENTER=${autoEnter}\nINJECTION_METHOD=clipboard_paste\nSAMPLE_RATE=16000`;
+        const envContent = `GEMINI_API_KEY=${key}\nGEMINI_MODEL=${model}\nRECORD_MODE=${recordMode}\nSOURCE_LANG=${src}\nTARGET_LANG=${tgt}\nHOTKEY=${hk}\nGAMEPAD_HOTKEY=${ghk}\nAUTO_ENTER=${autoEnter}\nINJECTION_METHOD=clipboard_paste\nSAMPLE_RATE=16000`;
         
         document.getElementById('envPreview').value = envContent;
     }

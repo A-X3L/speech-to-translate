@@ -7,6 +7,13 @@ Un outil autonome et universel pour Windows permettant de traduire ou dicter du 
 ## 🛠️ Fonctionnalités
 
 * **Dictée & Traduction en direct :** Capture le micro à la volée via un raccourci clavier (*hotkey*) ou les boutons d'une manette Xbox.
+* **Modes d'enregistrement :**
+  * `hold` (Push-To-Talk) : Maintenez la touche enfoncée pour parler, relâchez pour envoyer.
+  * `toggle` : Appuyez une fois pour démarrer l'enregistrement, réappuyez pour l'arrêter et traduire.
+* **Langues & Détection automatique :** Traduction multilingue (FR, EN, ES, DE, JA...) ou détection automatique de la langue parlée (`SOURCE_LANG=auto`).
+* **Zone de notification Windows (Systray) & Icône Dango :**
+  * Attribution automatique de l'icône Dango à la console Windows (`ICO/dango_translate_icon.ico`).
+  * Réduction en tâche de fond dans la zone de notification (à côté de l'horloge) avec menu clic droit : *Afficher / Masquer* et *Quitter*.
 * **Injection universelle :** Colle le texte directement dans le champ actif (`Ctrl+V`) avec option de validation automatique (`AUTO_ENTER`).
 * **Configurateur Web :** Interface dashboard HTML/JS (`configurateur.html`) pour générer facilement votre fichier `.env` en quelques clics.
 * **Modèles Gemini supportés :**

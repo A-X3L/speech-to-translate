@@ -1,7 +1,7 @@
 @echo off
 title Xbox Game Bar Voice Translator FR-EN
 echo ==============================================================
-echo  Xbox Game Bar / Forza Horizon - Traducteur Vocal (FR -^> EN)
+echo  Xbox Game Bar / Forza Horizon - Traducteur Vocal Instantane IA
 echo ==============================================================
 echo.
 

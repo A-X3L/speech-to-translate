@@ -6,3 +6,5 @@ python-dotenv>=1.0.0
 pyperclip>=1.8.2
 scipy>=1.11.0
 colorama>=0.4.6
+pystray>=0.19.5
+Pillow>=10.0.0

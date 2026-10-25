@@ -1,0 +1,15 @@
+{
+  "GEMINI_API_KEY": "",
+  "GEMINI_MODEL": "gemini-3.5-flash-lite",
+  "TARGET_LANG": "en",
+  "RECORD_MODE": "hold",
+  "HOTKEY": "f8",
+  "GAMEPAD_BUTTON": "r_thumb",
+  "AUTO_ENTER": true,
+  "DUCKING_LEVEL": 0.5,
+  "INJECTION_METHOD": "clipboard_paste",
+  "SAMPLE_RATE": 16000,
+  "FILTER_PROFANITY": false,
+  "INPUT_DEVICE": null,
+  "UI_LANG": "fr"
+}

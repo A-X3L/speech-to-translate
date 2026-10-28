@@ -11,3 +11,4 @@ PyQt6>=6.5.0
 pycaw>=20230407
 comtypes>=1.2.0
 requests>=2.31.0
+azure-cognitiveservices-speech>=1.35.0

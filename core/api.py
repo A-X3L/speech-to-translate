@@ -37,7 +37,8 @@ def init_genai_client():
             pass
     return genai_client
 
-def declencher_action_micro():
+def declencher_action_gemini():
+    """Pipeline d'enregistrement audio unitaire et traduction via Gemini Flash."""
     global genai_client
     
     if not config.action_lock.acquire(blocking=False):
@@ -45,10 +46,6 @@ def declencher_action_micro():
 
     try:
         config.is_action_in_progress = True
-        
-        if not is_editable_text_field_focused():
-            AppNotifier.notify_focus_error()
-            return
 
         AppNotifier.notify_ducking_start()
         vol_interface, orig_vol = apply_audio_ducking(config.DUCKING_LEVEL)
@@ -121,3 +118,15 @@ def declencher_action_micro():
     finally:
         config.is_action_in_progress = False
         config.action_lock.release()
+
+def declencher_action_micro():
+    """Point d'entrée principal qui dispatche vers Azure Speech ou Gemini selon la configuration."""
+    if getattr(config, "IS_MUTED", False):
+        print("[MUTE] Microphone coupé — dictée ignorée.")
+        return
+    engine = getattr(config, "SPEECH_ENGINE", "azure").lower()
+    if engine == "azure":
+        from core.azure_speech import declencher_action_azure
+        declencher_action_azure()
+    else:
+        declencher_action_gemini()

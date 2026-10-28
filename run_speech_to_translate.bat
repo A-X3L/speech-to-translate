@@ -17,18 +17,26 @@ if not exist "config.json" (
 
 :: 2. Installation automatique des dependances Python
 echo [INSTALLATION] Verification et installation des dependances (requirements.txt)...
-python -m pip install --upgrade pip
-python -m pip install -r requirements.txt
+python -m pip install -q --upgrade pip
+python -m pip install -q -r requirements.txt
 echo.
 
-:: 3. Creation automatique du raccourci Bureau via PowerShell (sans VBS)
-echo [RACCOURCI] Creation du raccourci Bureau "Speech to Translate"...
-powershell -Command "$WScriptShell = New-Object -ComObject WScript.Shell; $Shortcut = $WScriptShell.CreateShortcut([System.Environment]::GetFolderPath('Desktop') + '\Speech to Translate.lnk'); $Shortcut.TargetPath = '%~f0'; $Shortcut.WorkingDirectory = '%~dp0'; $Shortcut.Description = 'Speech to Translate - Traduction Vocale IA'; if (Test-Path '%~dp0icon.ico') { $Shortcut.IconLocation = '%~dp0icon.ico' } else { if (Test-Path '%~dp0ICO\dango_translate_icon.ico') { $Shortcut.IconLocation = '%~dp0ICO\dango_translate_icon.ico' } }; $Shortcut.Save()"
+:: 3. Creation automatique du raccourci Bureau en mode silencieux (pythonw)
+echo [RACCOURCI] Creation/mise a jour du raccourci Bureau "Speech to Translate"...
+powershell -NoProfile -Command ^
+    "$WScriptShell = New-Object -ComObject WScript.Shell; " ^
+    "$Shortcut = $WScriptShell.CreateShortcut([System.Environment]::GetFolderPath('Desktop') + '\Speech to Translate.lnk'); " ^
+    "$Shortcut.TargetPath = 'pythonw.exe'; " ^
+    "$Shortcut.Arguments = '\"%~dp0main.py\"'; " ^
+    "$Shortcut.WorkingDirectory = '%~dp0'; " ^
+    "$Shortcut.Description = 'Speech to Translate - Traduction Vocale IA (Mode Silencieux)'; " ^
+    "if (Test-Path '%~dp0assets\STT2.ico') { $Shortcut.IconLocation = '%~dp0assets\STT2.ico,0' }; " ^
+    "$Shortcut.Save()"
 echo.
 
+:: 4. Lancement en mode GUI pur (sans console d'arriere-plan)
 echo ======================================================================
-echo  Lancement de l'application Speech to Translate...
+echo  Lancement de Speech to Translate en mode silencieux (GUI pur)...
 echo ======================================================================
-python main.py
-
-pause
+start "" pythonw "%~dp0main.py"
+exit

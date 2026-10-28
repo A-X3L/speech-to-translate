@@ -49,6 +49,23 @@ def restore_audio_volume(volume_interface, original_scalar: Optional[float]):
     except Exception as e:
         log_msg("ducking_restore_err", e)
 
+def get_input_devices_list() -> List[Tuple[Optional[int], str]]:
+    """Retourne la liste des périphériques d'enregistrement disponibles sous forme de tuples (index, label)."""
+    devices: List[Tuple[Optional[int], str]] = [(None, config.get_msg("settings_input_default") or "Microphone par défaut")]
+    try:
+        all_devs = sd.query_devices()
+        host_apis = sd.query_hostapis()
+        for idx, dev in enumerate(all_devs):
+            if dev.get("max_input_channels", 0) > 0:
+                name = dev.get("name", f"Périphérique #{idx}")
+                api_idx = dev.get("hostapi", 0)
+                api_name = host_apis[api_idx]["name"] if api_idx < len(host_apis) else ""
+                label = f"{name} ({api_name})" if api_name else name
+                devices.append((idx, label))
+    except Exception as e:
+        pass
+    return devices
+
 # =====================================================================
 # AUDIO RECORDING
 # =====================================================================
@@ -64,7 +81,13 @@ def record_microphone_audio():
             rms = float(np.sqrt(np.mean(indata**2)))
             config.hud_bridge.volume_level.emit(min(1.0, rms * 5.0))
 
-    input_dev = config.CONFIG.get("INPUT_DEVICE")
+    raw_dev = config.CONFIG.get("INPUT_DEVICE")
+    input_dev = None
+    if raw_dev is not None and str(raw_dev).strip() != "" and str(raw_dev).lower() != "none":
+        try:
+            input_dev = int(raw_dev)
+        except (ValueError, TypeError):
+            input_dev = str(raw_dev).strip()
 
     try:
         with sd.InputStream(device=input_dev, samplerate=config.SAMPLE_RATE, channels=config.CHANNELS, callback=callback):
@@ -76,6 +99,6 @@ def record_microphone_audio():
                 while is_input_active():
                     time.sleep(0.02)
     except Exception as e:
-        print(f"[MICROPHONE] Erreur d'enregistrement : {e}")
+        print(f"[MICROPHONE] Erreur d'enregistrement sur périphérique {input_dev} : {e}")
 
     return frames

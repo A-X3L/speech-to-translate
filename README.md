@@ -1,70 +1,157 @@
 # **🎙️ Speech to Translate — AI Voice Translator & Traducteur Vocal**
 
-Un utilitaire Windows autonome et universel fonctionnant en arrière-plan avec un HUD discret (style Windows dictée Win \+ H). Il permet de traduire et dicter votre voix en direct via l'API Gemini ou Gemma, directement dans le champ texte actif de vos applications et jeux (Discord, WhatsApp, Word, Notepad, Forza, etc.).
+Un utilitaire Windows autonome et universel fonctionnant en arrière-plan avec un HUD discret (style Windows dictée `Win + H`). Il permet de traduire et dicter votre voix en direct via le service de **streaming continu Azure Speech** (`TranslationRecognizer`) ou via l'API **Google Gemini Flash / Gemma**, directement dans le champ texte actif de vos applications et jeux (Discord, WhatsApp, Word, Notepad, Forza Horizon, etc.).
+
+---
 
 ## **📐 Architecture & Principes Fondamentaux**
 
-Le projet repose sur trois piliers d'ingénierie stricts :
+Le projet repose sur des piliers d'ingénierie stricts pour garantir une exécution ultra-fluide sans ralentir les jeux vidéo :
 
-1. **Auto-détection intégrale :** Aucune sélection de langue d'entrée. L'IA détecte automatiquement la langue parlée et la traduit vers la **Langue Cible** configurée (TARGET\_LANG).  
-2. **Garde-fou de Focus Texte :** L'application vérifie la présence d'un champ de saisie éditable actif sous Windows avant toute capture audio pour éviter les envois "dans le vide" et la consommation inutile de quotas.  
-3. **Fonction de déclenchement unifiée :** L'ensemble des événements (raccourcis clavier PTT/Toggle ou boutons de manette Xbox) appellent un point d'entrée unique (declencher\_action\_micro()).
+1. **Architecture Dual-Engine (Azure Speech & Google Gemini) :**
+   * **Azure Speech SDK (`TranslationRecognizer`) :** Streaming continu haute fidélité avec latence quasi-nulle. Le flux audio est transmis en temps réel, affiche les segments intermédiaires (`recognizing`) et injecte automatiquement le texte traduit dès validation du segment (`recognized`).
+   * **Google Gemini API :** Mode batch audio utilisant les modèles multimodaux de pointe (`gemini-3.5-flash-lite`, `gemma-4-26b`) pour une auto-détection contextuelle globale.
+   * Bascule instantanée entre les deux moteurs depuis le volet des **Réglages (⚙️)** du HUD.
+
+2. **Garde-fou de Focus Texte (Windows Focus Check) :**
+   * L'application interroge les API Windows (Win32 / UI Automation) dès la sollicitation du raccourci.
+   * Si aucun champ de saisie texte éditable n'est actif, la capture s'interrompt immédiatement avec une notification visuelle sur le HUD, évitant tout appel API inutile et toute consommation superflue de quota.
+
+3. **Point d'Entrée Unifié (`declencher_action_micro`) :**
+   * Tous les périphériques (raccourcis clavier globaux, boutons de manette Xbox XInput, clic direct sur le microphone du HUD) convergent vers un pipeline unique thread-safe.
+
+4. **Audio Ducking Master Synchrone (`pycaw`) :**
+   * Atténuation automatique du volume principal de Windows pendant la durée exacte de la parole.
+   * Restauration instantanée et garantie du volume sonore initial via un bloc `finally:`, évitant tout blocage du son en cas d'erreur ou d'interruption.
+
+---
 
 ## **🛠️ Fonctionnalités Clés**
 
-* **HUD Flottant & Panneau de Réglages Déroulant (Flyout) :**  
-  * Overlay flottant minimaliste (style Win \+ H) affichant l'état en temps réel via un égaliseur vectoriel réactif (5 colonnes de points animées selon l'amplitude du micro).  
-  * **Roue crantée (Paramètres) :** Déplie un panneau de configuration intégré au HUD pour modifier les clés API, les langues cibles, l'atténuation sonore et les raccourcis sans ouvrir de navigateur.  
-  * **Bouton Aide (?) :** Affiche la documentation et le guide rapide directement dans un volet du HUD.  
-* **Détection automatique de la langue parlée :** Dites n'importe quoi (Français, Espagnol, Allemand, Japonais...), l'IA comprend et traduit automatiquement vers la langue cible paramétrée (TARGET\_LANG=en, fr, es...).  
-* **Contrôle dynamique du Focus Texte (Focus Check) :**  
-  * Interroge l'API Windows (UI Automation / Win32) dès la pression du raccourci.  
-  * Si aucun champ de saisie n'est ciblé, le traitement s'arrête immédiatement avec une alerte visuelle sur le HUD.  
-* **Audio Ducking Master synchrone :**  
-  * Atténuation automatique du volume principal de Windows (Master Volume via pycaw) pendant la durée exacte de l'enregistrement micro.  
-  * Restauration instantanée du volume dès la fin de la capture.  
-* **Modes d'enregistrement flexibles :**  
-  * hold (Push-To-Talk) : Maintenez la touche/bouton enfoncé(e) pour parler, relâchez pour traduire.  
-  * toggle : Appuyez une fois pour lancer la capture, réappuyez pour finaliser et traduire.  
-* **Zone de notification Windows (Systray) :**  
-  * Réduction invisible dans la barre des tâches à côté de l'horloge avec menu rapide (*Paramètres*, *Masquer/Afficher*, *Quitter*).  
-* **Injection universelle de texte :** Saisie automatique du texte traduit dans le champ actif (Ctrl+V) avec option de validation automatique (AUTO\_ENTER).
+* **HUD Flottant & Panneaux Déroulants (Flyout) :**
+  * Overlay flottant compact inspiré de l'ergonomie `Win + H` avec animations visuelles douces.
+  * Égaliseur vectoriel réactif (5 colonnes de points animées selon l'amplitude réelle du micro).
+  * **Roue crantée (⚙️ Réglages) :** Volet déroulant intégré pour ajuster les clés API, le moteur actif, la région Azure, la langue source conditionnelle (Azure), la langue cible en saisie libre (`TARGET_LANG`), le niveau de ducking, l'opacité et les raccourcis.
+  * **Bouton Aide (? Aide) :** Affiche le statut du moteur, les raccourcis configurés et le guide d'utilisation directement dans le HUD, avec accès rapide à la documentation locale (`help.html`).
+* **Modes d'Enregistrement :**
+  * `hold` (Push-To-Talk) : Maintenez le raccourci enfoncé pour dicter, relâchez pour finaliser et traduire.
+  * `toggle` (Bascule) : Pressez une fois pour ouvrir le micro, pressez à nouveau pour couper et traduire.
+* **Support Manette Xbox (XInput) :**
+  * Capture des boutons de manette (`R_THUMB`, `L_THUMB`, `LB`, `RB`, etc.) avec boucle asynchrone non-bloquante (`QTimer`) et garde-fou temporel de sécurité de 8 secondes.
+* **Zone de Notification (Systray) :**
+  * Réduction discrète dans la barre des tâches à côté de l'horloge avec menu contextuel rapide (*Paramètres*, *Aide*, *Masquer/Afficher*, *Quitter*).
+* **Injection Universelle de Texte :**
+  * Saisie rapide du texte traduit au curseur actif via presse-papier (`Ctrl+V`) avec option d'envoi automatique (`AUTO_ENTER`).
 
-## **🤖 Modèles IA Supportés**
+---
 
-| Modèle | Quota Req/Min (RPM) | Quota Req/Jour (RPD) | Usage Recommandé |
-| :---- | :---- | :---- | :---- |
-| **gemini-3.5-flash-lite** | 15 | 500 | **Recommandé** — Parfait pour de longues sessions de jeu |
-| **gemini-3.1-flash-lite** | 15 | 500 | Très rapide et quotas généreux |
-| **gemma-4-26b** | 30 | 14 400 | Usage intensif et haut débit |
+## **🤖 Comparatif des Moteurs Supportés**
 
-## **🔄 Flux de Traitement Séquentiel (Pipeline declencher\_action\_micro)**
+| Moteur / Modèle | Type de Traitement | Latence | Quota Gratuit | Usage Recommandé |
+| :--- | :--- | :--- | :--- | :--- |
+| **Azure Speech Translation** | **Streaming Continu** | **Ultra-faible (~100-300ms)** | 5 heures / mois | **Recommandé** — Idéal pour les jeux multijoueurs et discussions en direct |
+| **gemini-3.5-flash-lite** | Batch Audio | Faible (< 1.2s) | 500 req / jour | Alternative puissante avec auto-détection universelle de la langue |
+| **gemini-3.1-flash-lite** | Batch Audio | Faible | 500 req / jour | Solution économique et légère |
+| **gemma-4-26b** | Batch Audio | Modérée | 14 400 req / jour | Usage intensif et gros volumes |
 
-Tout déclenchement (Clavier ou Gamepad) exécute strictement la séquence synchrone suivante :
+---
 
-\[ Événement Hotkey / Gamepad \]  
-              │  
-              ▼  
-    1\. Test Focus Texte Actif ? ──► NON ──► \[ HUD : Alerte "Champ texte requis" \] ──► Fin  
-              │  
-             OUI  
-              ▼  
-    2\. Baisse Master Volume (Ducking ON)  
-              │  
-              ▼  
-    3\. Ouverture Micro & Capture Audio (HUD : Animation égaliseur 30 FPS)  
-              │  
-              ▼  
-    4\. Envoi Audio à Gemini / Gemma (Auto-détection ──► Traduction TARGET\_LANG)  
-              │  
-              ▼  
-    5\. Injection Texte (\`Ctrl+V\` / Auto-Enter)  
-              │  
-              ▼  
-    6\. Restauration Master Volume (Ducking OFF) & Reset HUD
+## **🔄 Flux de Traitement Séquentiel**
 
-## **🚀 Lancement & Déploiement**
+```text
+[ Événement Hotkey Clavier / Bouton Manette ]
+                    │
+                    ▼
+          1. Test Focus Texte Actif ?
+             ├── NON ──► [ HUD : Alerte "Champ texte requis" ] ──► Fin
+             └── OUI
+                    │
+                    ▼
+          2. Baisse Master Volume (Audio Ducking ON)
+                    │
+                    ▼
+          3. Ouverture Micro & Capture
+             ├── [Azure Speech] ──► Streaming continu + affichage temporaire
+             └── [Gemini]       ──► Enregistrement du buffer audio
+                    │
+                    ▼
+          4. Traduction vers TARGET_LANG
+                    │
+                    ▼
+          5. Injection Texte (Ctrl+V / Auto-Enter au curseur actif)
+                    │
+                    ▼
+          6. Restauration Master Volume (Ducking OFF) & Reset HUD
+```
 
-### **Exécution autonome (.exe)**
+---
 
-Double-cliquez sur SpeechToTranslate.exe. L'application se loge en Systray et affiche le HUD au premier raccourci activé. Tout le paramétrage s'effectue via le menu déroulant de la roue crantée du HUD.
+## **⚙️ Paramètres de Configuration (`config.json`)**
+
+Tous les paramètres sont modifiables directement depuis le volet Réglages du HUD ou via `config.json` :
+
+```json
+{
+  "SPEECH_ENGINE": "azure",
+  "AZURE_SPEECH_KEY": "VOTRE_CLE_AZURE",
+  "AZURE_SPEECH_REGION": "francecentral",
+  "AZURE_SOURCE_LANG": "fr-FR",
+  "GEMINI_API_KEY": "",
+  "GEMINI_MODEL": "gemini-3.5-flash-lite",
+  "TARGET_LANG": "en",
+  "RECORD_MODE": "hold",
+  "HOTKEY": "f8",
+  "GAMEPAD_BUTTON": "r_thumb",
+  "AUTO_ENTER": true,
+  "DUCKING_LEVEL": 0.5,
+  "INJECTION_METHOD": "clipboard_paste",
+  "SAMPLE_RATE": 16000,
+  "FILTER_PROFANITY": false,
+  "INPUT_DEVICE": null,
+  "UI_LANG": "fr",
+  "HUD_OPACITY": 0.95,
+  "ALWAYS_ON_TOP": true,
+  "SHOW_LANG_SELECTOR": false
+}
+```
+
+---
+
+## **🚀 Installation & Lancement Local (Windows)**
+
+### **1. Prérequis**
+* Windows 10 ou 11 (64-bit)
+* Python 3.10 ou supérieur
+
+### **2. Installation des Dépendances**
+Dans une invite de commandes ou un terminal PowerShell :
+```cmd
+pip install -r requirements.txt
+```
+
+### **3. Lancement de l'Application (Mode Silencieux GUI Pur)**
+* **Via le lanceur batch silencieux :**
+  ```cmd
+  run_speech_to_translate.bat
+  ```
+  *Le script installe les dépendances, génère le raccourci Bureau et démarre l'application via `pythonw.exe` sans aucune invite de commande d'arrière-plan.*
+* **Ou directement en Python (Mode silencieux) :**
+  ```cmd
+  pythonw main.py
+  # Pour afficher les logs en console de débogage :
+  python main.py --debug
+  ```
+
+### **4. Compilation en Exécutable Autonome (.exe sans console)**
+Pour générer un fichier `.exe` portable et silencieux via PyInstaller :
+```cmd
+pip install pyinstaller
+pyinstaller --noconsole --onefile --windowed --icon=assets/STT2.ico --add-data "assets;assets" --add-data "help.html;." main.py
+```
+
+### **5. Configuration Initiale & Ergonomie**
+1. **Assistant Premier Démarrage :** Une fenêtre interactive vous invite à choisir votre langue d'interface (**Français** ou **English**) avec mémorisation automatique.
+2. **Réglage Transparence :** Ajustez l'opacité globale du HUD (de 30% à 100%) directement avec le curseur dédié dans les Réglages.
+3. **Animation Micro :** L'icône centrale s'illumine d'un halo cyan pulsant en temps réel selon le niveau de votre voix.
+4. **Déplacement Universel :** Cliquez et glissez sur la poignée ou n'importe quel espace vide des fenêtres pour repositionner le HUD à votre convenance.
+5. Renseignez votre clé Azure Speech (ou Google AI Studio) dans les **Réglages (⚙️)**, puis commencez à dicter !

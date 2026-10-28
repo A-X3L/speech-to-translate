@@ -129,6 +129,8 @@ def is_input_active() -> bool:
     return config.key_pressed_state or is_gamepad_button_pressed()
 
 def on_press(key):
+    if getattr(config, "IS_MUTED", False):
+        return
     k_name = get_key_name(key)
     if k_name == config.HOTKEY_STR:
         if config.RECORD_MODE == "toggle":
@@ -156,7 +158,13 @@ def gamepad_poller_thread():
     global _background_thread_running
     while _background_thread_running:
         try:
-            if config.hud_window and getattr(config.hud_window, 'is_capturing_gamepad', False):
+            is_capturing = False
+            if config.hud_window:
+                if getattr(config.hud_window, 'is_capturing_gamepad', False):
+                    is_capturing = True
+                elif getattr(config.hud_window, 'settings_dialog', None) and getattr(config.hud_window.settings_dialog, 'is_capturing_gamepad', False):
+                    is_capturing = True
+            if is_capturing or getattr(config, "IS_MUTED", False):
                 time.sleep(0.05)
                 continue
 

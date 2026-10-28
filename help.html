@@ -8,23 +8,24 @@
     <link rel="icon" type="image/x-icon" href="assets/STT2.ico">
     <style>
         :root {
-            /* Palette Design System : Bleu nuit profond, accents dégradés orange/corail, touches cyan */
-            --bg-night: #0a0d16;
-            --card-night: #121829;
+            /* Palette Design System : Gris Anthracite profond & Noir Mat élégant */
+            --bg-night: #0d1117;
+            --card-night: #161b22;
             --card-border: rgba(255, 255, 255, 0.08);
-            --card-hover-border: rgba(66, 133, 244, 0.35);
+            --card-hover-border: rgba(34, 211, 238, 0.4);
             
             --coral-orange: #ff5e36;
             --coral-bright: #ff7b54;
             --cyan-accent: #22d3ee;
             --cyan-glow: rgba(34, 211, 238, 0.18);
+            --azure-blue: #0078d4;
             
-            --text-primary: #f8fafc;
-            --text-secondary: #94a3b8;
-            --text-tertiary: #64748b;
+            --text-primary: #f0f6fc;
+            --text-secondary: #8b949e;
+            --text-tertiary: #6e7681;
             
-            --badge-bg: rgba(255, 94, 54, 0.12);
-            --badge-border: rgba(255, 94, 54, 0.3);
+            --badge-bg: rgba(34, 211, 238, 0.1);
+            --badge-border: rgba(34, 211, 238, 0.3);
             
             --google-blue: #4285f4;
             --google-red: #ea4335;
@@ -50,23 +51,23 @@
         }
 
         .container {
-            max-width: 920px;
+            max-width: 940px;
             width: 100%;
         }
 
-        /* HEADER SECTION 1 */
+        /* HEADER SECTION */
         header {
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 24px;
-            margin-bottom: 40px;
+            margin-bottom: 36px;
             text-align: left;
             flex-wrap: wrap;
             padding: 24px;
-            background: linear-gradient(135deg, rgba(18, 24, 41, 0.8) 0%, rgba(10, 13, 22, 0.95) 100%);
+            background: linear-gradient(135deg, rgba(18, 24, 41, 0.85) 0%, rgba(10, 13, 22, 0.98) 100%);
             border: 1px solid var(--card-border);
-            border-radius: 20px;
+            border-radius: 18px;
             box-shadow: 0 12px 36px rgba(0, 0, 0, 0.45);
         }
 
@@ -78,15 +79,15 @@
             width: 80px;
             height: 80px;
             background: rgba(255, 255, 255, 0.03);
-            border-radius: 18px;
+            border-radius: 16px;
             border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 8px 24px rgba(255, 94, 54, 0.2);
+            box-shadow: 0 8px 24px rgba(34, 211, 238, 0.2);
             flex-shrink: 0;
         }
 
         .logo-img {
-            width: 62px;
-            height: 62px;
+            width: 60px;
+            height: 60px;
             object-fit: contain;
         }
 
@@ -94,7 +95,7 @@
             font-size: 2rem;
             font-weight: 800;
             letter-spacing: -0.5px;
-            background: linear-gradient(90deg, #ff7b54 0%, #ff5e36 40%, #22d3ee 100%);
+            background: linear-gradient(90deg, #22d3ee 0%, #38bdf8 45%, #ff7b54 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             margin-bottom: 6px;
@@ -103,7 +104,7 @@
         .header-content p {
             color: var(--text-secondary);
             font-size: 1rem;
-            max-width: 620px;
+            max-width: 640px;
         }
 
         .badges-row {
@@ -118,29 +119,35 @@
             align-items: center;
             gap: 6px;
             padding: 4px 12px;
-            border-radius: 20px;
+            border-radius: 6px;
             font-size: 0.78rem;
             font-weight: 600;
             background: var(--badge-bg);
-            color: #ff9b80;
+            color: var(--cyan-accent);
             border: 1px solid var(--badge-border);
         }
 
-        .badge.cyan {
-            background: rgba(34, 211, 238, 0.1);
-            color: var(--cyan-accent);
-            border-color: rgba(34, 211, 238, 0.25);
+        .badge.azure {
+            background: rgba(0, 120, 212, 0.15);
+            color: #60a5fa;
+            border-color: rgba(96, 165, 250, 0.3);
+        }
+
+        .badge.coral {
+            background: rgba(255, 94, 54, 0.12);
+            color: #ff9b80;
+            border-color: rgba(255, 94, 54, 0.3);
         }
 
         /* CARTES ET SECTIONS */
         .card {
             background-color: var(--card-night);
             border: 1px solid var(--card-border);
-            border-radius: 18px;
-            padding: 30px;
-            margin-bottom: 28px;
+            border-radius: 16px;
+            padding: 28px;
+            margin-bottom: 24px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
-            transition: border-color 0.25s, transform 0.2s;
+            transition: border-color 0.25s;
         }
 
         .card:hover {
@@ -150,138 +157,166 @@
         .section-title {
             display: flex;
             align-items: center;
-            gap: 14px;
-            margin-bottom: 20px;
-            font-size: 1.35rem;
+            gap: 12px;
+            margin-bottom: 18px;
+            font-size: 1.3rem;
             font-weight: 700;
             color: var(--text-primary);
         }
 
         .section-icon {
-            width: 32px;
-            height: 32px;
+            width: 36px;
+            height: 36px;
             object-fit: contain;
-            filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.4));
+            flex-shrink: 0;
+            vertical-align: middle;
+            filter: drop-shadow(0 2px 8px rgba(34, 211, 238, 0.25));
         }
 
-        /* SECTION 2 : PROCÉDURE API */
-        .api-cta-box {
+        /* DUAL ENGINE GRID */
+        .engines-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+            gap: 16px;
+            margin-top: 16px;
+        }
+
+        .engine-box {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .engine-box.azure-active {
+            border-color: rgba(34, 211, 238, 0.35);
+            background: linear-gradient(135deg, rgba(34, 211, 238, 0.04) 0%, rgba(18, 24, 41, 0.6) 100%);
+        }
+
+        .engine-box.gemini-active {
+            border-color: rgba(255, 94, 54, 0.3);
+            background: linear-gradient(135deg, rgba(255, 94, 54, 0.04) 0%, rgba(18, 24, 41, 0.6) 100%);
+        }
+
+        .engine-header {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 20px;
-            background: linear-gradient(135deg, rgba(34, 211, 238, 0.08) 0%, rgba(255, 94, 54, 0.08) 100%);
-            border: 1px solid rgba(34, 211, 238, 0.2);
-            border-radius: 14px;
-            padding: 22px;
-            margin-bottom: 24px;
-            flex-wrap: wrap;
         }
 
-        .api-cta-text h3 {
-            font-size: 1.15rem;
-            margin-bottom: 4px;
+        .engine-title {
+            font-size: 1.05rem;
+            font-weight: 700;
             color: #ffffff;
         }
 
-        .api-cta-text p {
-            color: var(--text-secondary);
-            font-size: 0.92rem;
-        }
-
-        .btn-primary {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: linear-gradient(135deg, var(--coral-orange) 0%, #e0441d 100%);
-            color: white;
-            text-decoration: none;
+        .tag-pill {
+            font-size: 0.72rem;
             font-weight: 700;
-            padding: 13px 24px;
-            border-radius: 10px;
-            box-shadow: 0 4px 18px rgba(255, 94, 54, 0.35);
-            transition: all 0.2s ease;
-            white-space: nowrap;
-            border: none;
-            font-size: 0.95rem;
+            padding: 3px 8px;
+            border-radius: 4px;
+            text-transform: uppercase;
         }
 
-        .btn-primary:hover {
-            background: linear-gradient(135deg, var(--coral-bright) 0%, var(--coral-orange) 100%);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 22px rgba(255, 94, 54, 0.5);
-        }
-
-        .steps-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 16px;
-        }
-
-        .step-item {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: 12px;
-            padding: 18px;
-            position: relative;
-        }
-
-        .step-num {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 28px;
-            height: 28px;
-            border-radius: 8px;
+        .tag-pill.cyan {
             background: rgba(34, 211, 238, 0.15);
-            color: var(--cyan-accent);
-            font-weight: 800;
-            font-size: 0.85rem;
-            margin-bottom: 10px;
+            color: #22d3ee;
             border: 1px solid rgba(34, 211, 238, 0.3);
         }
 
-        .step-item h4 {
-            font-size: 0.98rem;
-            color: var(--text-primary);
-            margin-bottom: 6px;
+        .tag-pill.orange {
+            background: rgba(255, 94, 54, 0.15);
+            color: #ff9b80;
+            border: 1px solid rgba(255, 94, 54, 0.3);
         }
 
-        .step-item p {
-            font-size: 0.86rem;
+        .engine-desc {
+            font-size: 0.88rem;
             color: var(--text-secondary);
             line-height: 1.5;
         }
 
-        /* SECTION 3 : TABLEAU QUOTAS */
+        .engine-specs {
+            list-style: none;
+            padding: 0;
+            margin: 6px 0;
+            font-size: 0.84rem;
+            color: var(--text-secondary);
+        }
+
+        .engine-specs li {
+            padding: 3px 0;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            padding: 10px 16px;
+            border-radius: 6px;
+            font-size: 0.88rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            margin-top: auto;
+        }
+
+        .btn-link.cyan {
+            background: rgba(34, 211, 238, 0.15);
+            border: 1px solid #22d3ee;
+            color: #22d3ee;
+        }
+        .btn-link.cyan:hover {
+            background: rgba(34, 211, 238, 0.3);
+            color: #ffffff;
+        }
+
+        .btn-link.coral {
+            background: rgba(255, 94, 54, 0.15);
+            border: 1px solid var(--coral-orange);
+            color: var(--coral-bright);
+        }
+        .btn-link.coral:hover {
+            background: rgba(255, 94, 54, 0.3);
+            color: #ffffff;
+        }
+
+        /* TABLEAU COMPARATIF */
         table {
             width: 100%;
             border-collapse: separate;
             border-spacing: 0;
             margin-top: 14px;
-            border-radius: 12px;
+            border-radius: 8px;
             overflow: hidden;
             border: 1px solid var(--card-border);
         }
 
         th, td {
-            padding: 14px 18px;
+            padding: 12px 16px;
             text-align: left;
         }
 
         th {
             background: rgba(255, 255, 255, 0.04);
             color: var(--text-primary);
-            font-size: 0.85rem;
+            font-size: 0.82rem;
             text-transform: uppercase;
-            letter-spacing: 0.7px;
+            letter-spacing: 0.6px;
             font-weight: 700;
             border-bottom: 1px solid var(--card-border);
         }
 
         td {
             border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-            font-size: 0.92rem;
+            font-size: 0.90rem;
             color: var(--text-secondary);
         }
 
@@ -290,7 +325,7 @@
         }
 
         tr.highlighted {
-            background: rgba(255, 94, 54, 0.05);
+            background: rgba(34, 211, 238, 0.04);
         }
 
         tr.highlighted td {
@@ -301,88 +336,63 @@
             font-family: 'Consolas', monospace;
             background: rgba(0, 0, 0, 0.35);
             padding: 2px 7px;
-            border-radius: 6px;
-            font-size: 0.86rem;
+            border-radius: 4px;
+            font-size: 0.85rem;
             color: var(--cyan-accent);
             border: 1px solid rgba(34, 211, 238, 0.2);
         }
 
-        .rec-tag {
-            background: linear-gradient(135deg, rgba(255, 94, 54, 0.2) 0%, rgba(255, 94, 54, 0.1) 100%);
-            color: #ff9b80;
-            border: 1px solid rgba(255, 94, 54, 0.4);
-            padding: 2px 8px;
-            border-radius: 6px;
-            font-size: 0.75rem;
-            font-weight: 700;
-            margin-left: 6px;
-        }
-
-        .pedagogy-callout {
-            margin-top: 20px;
-            padding: 16px 20px;
-            background: rgba(255, 255, 255, 0.02);
-            border-left: 3px solid var(--cyan-accent);
-            border-radius: 0 12px 12px 0;
-            font-size: 0.88rem;
-            color: var(--text-secondary);
-            line-height: 1.6;
-        }
-
-        .pedagogy-callout strong {
-            color: var(--text-primary);
-        }
-
-        /* SECTION 4 : MODE D'EMPLOI & SYSTRAY */
+        /* SECTION WORKFLOW */
         .usage-workflow {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
             gap: 16px;
-            margin-bottom: 24px;
+            margin-bottom: 20px;
         }
 
         .workflow-card {
             background: rgba(255, 255, 255, 0.02);
             border: 1px solid var(--card-border);
-            border-radius: 14px;
-            padding: 20px;
+            border-radius: 10px;
+            padding: 18px;
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 6px;
         }
 
         .workflow-icon {
-            font-size: 1.8rem;
-            margin-bottom: 4px;
+            font-size: 1.6rem;
+            margin-bottom: 2px;
         }
 
         .workflow-card h4 {
             color: #ffffff;
-            font-size: 1rem;
+            font-size: 0.98rem;
         }
 
         .workflow-card p {
             color: var(--text-secondary);
-            font-size: 0.88rem;
+            font-size: 0.86rem;
         }
 
+        /* BANNIÈRE REGLAGES / SYSTRAY */
         .systray-banner {
             display: flex;
             align-items: center;
-            gap: 20px;
-            background: linear-gradient(135deg, rgba(255, 94, 54, 0.1) 0%, rgba(18, 24, 41, 0.95) 100%);
-            border: 1px solid rgba(255, 94, 54, 0.35);
-            border-radius: 16px;
-            padding: 22px;
+            gap: 18px;
+            background: linear-gradient(135deg, rgba(34, 211, 238, 0.08) 0%, rgba(18, 24, 41, 0.95) 100%);
+            border: 1px solid rgba(34, 211, 238, 0.25);
+            border-radius: 12px;
+            padding: 20px;
             flex-wrap: wrap;
         }
 
         .systray-icon-box {
-            width: 54px;
-            height: 54px;
-            border-radius: 14px;
-            background: rgba(0, 0, 0, 0.4);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            width: 52px;
+            height: 52px;
+            border-radius: 12px;
+            background: rgba(0, 0, 0, 0.45);
+            border: 1px solid rgba(255, 255, 255, 0.12);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -390,8 +400,9 @@
         }
 
         .systray-icon-box img {
-            width: 32px;
-            height: 32px;
+            width: 34px;
+            height: 34px;
+            object-fit: contain;
         }
 
         .systray-info {
@@ -401,13 +412,13 @@
 
         .systray-info h4 {
             color: #ffffff;
-            font-size: 1.05rem;
+            font-size: 1rem;
             margin-bottom: 4px;
         }
 
         .systray-info p {
             color: var(--text-secondary);
-            font-size: 0.88rem;
+            font-size: 0.86rem;
             line-height: 1.5;
         }
 
@@ -423,18 +434,7 @@
                 flex-direction: column;
                 text-align: center;
             }
-            .header-content p {
-                font-size: 0.92rem;
-            }
             .badges-row {
-                justify-content: center;
-            }
-            .api-cta-box {
-                flex-direction: column;
-                text-align: center;
-            }
-            .btn-primary {
-                width: 100%;
                 justify-content: center;
             }
         }
@@ -444,151 +444,146 @@
 
 <div class="container">
 
-    <!-- SECTION 1 : EN-TÊTE AVEC LOGO ET TITRE UNIVERSEL -->
+    <!-- HEADER PRINCIPAL -->
     <header>
         <div class="logo-wrapper">
-            <img src="assets/Google_Ai_vector_Logo.svg" alt="Google AI Logo" class="logo-img">
+            <img src="assets/Google_Ai_vector_Logo.svg" alt="Logo Speech to Translate" class="logo-img">
         </div>
         <div class="header-content">
             <h1>Speech to Translate</h1>
-            <p>Traducteur & Dictée Vocale IA universelle pour jeux vidéo et applications Windows.</p>
+            <p>Traducteur vocal et dictée en streaming direct pour vos jeux vidéo et applications Windows.</p>
             <div class="badges-row">
-                <span class="badge">🎙️ Détection multilingue native</span>
-                <span class="badge cyan">⚡ Focus Check & Audio Ducking</span>
-                <span class="badge">🎮 Clavier & Manette Xbox</span>
+                <span class="badge azure">⚡ Azure Speech SDK (Streaming)</span>
+                <span class="badge coral">🤖 Google Gemini Flash</span>
+                <span class="badge">🎯 Focus Check</span>
+                <span class="badge">🔊 Master Audio Ducking</span>
             </div>
         </div>
     </header>
 
-    <!-- SECTION 2 : PROCÉDURE OBTENTION CLÉ API -->
+    <!-- SECTION 1 : CHOIX DU MOTEUR VOCAL -->
     <div class="card">
         <div class="section-title">
-            <img src="assets/HelpG.svg" alt="Aide" class="section-icon">
-            <h2>1. Obtenir votre clé API Google AI Studio</h2>
-        </div>
-
-        <div class="api-cta-box">
-            <div class="api-cta-text">
-                <h3>Accès officiel au portail Google AI Studio</h3>
-                <p>100% gratuit, sans carte bancaire requise et opérationnel en moins d'une minute.</p>
-            </div>
-            <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener noreferrer" class="btn-primary">
-                Créer ma clé Google ↗
-            </a>
-        </div>
-
-        <div class="steps-grid">
-            <div class="step-item">
-                <span class="step-num">01</span>
-                <h4>Connexion</h4>
-                <p>Connectez-vous à <a href="https://aistudio.google.com/app/apikey" target="_blank" style="color: var(--cyan-accent); text-decoration: none;">Google AI Studio</a> avec votre compte Google personnel habituel.</p>
-            </div>
-            <div class="step-item">
-                <span class="step-num">02</span>
-                <h4>Générer la clé</h4>
-                <p>Cliquez sur le bouton bleu <strong>"Create API Key"</strong> puis sélectionnez <em>"Create API key in new project"</em>.</p>
-            </div>
-            <div class="step-item">
-                <span class="step-num">03</span>
-                <h4>Sauvegarder</h4>
-                <p>Copiez la clé obtenue (débutant par <code>AIzaSy...</code>) pour l'insérer dans l'application ou votre fichier <code>.env</code>.</p>
-            </div>
-        </div>
-    </div>
-
-    <!-- SECTION 3 : QUOTAS ET CHOIX DU MODÈLE -->
-    <div class="card">
-        <div class="section-title">
-            <img src="assets/Google_Ai_vector_Logo.svg" alt="Google AI" class="section-icon">
-            <h2>2. Quotas & Modèles Recommandés</h2>
+            <img src="assets/setting.svg" alt="Moteurs" class="section-icon">
+            <h2>1. Moteurs Vocaux Supportés</h2>
         </div>
 
         <p style="color: var(--text-secondary); font-size: 0.92rem;">
-            Google met à disposition plusieurs modèles pour l'analyse et la traduction vocale. Voici les limites officielles du palier gratuit (Free Tier) :
+            L'application intègre deux moteurs complémentaires interchangeables à tout moment via le menu <strong>Réglages (⚙️)</strong> du HUD :
         </p>
 
-        <table>
-            <thead>
-                <tr>
-                    <th>Modèle IA</th>
-                    <th>Req / Minute (RPM)</th>
-                    <th>Req / Jour (RPD)</th>
-                    <th>Recommandation</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr class="highlighted">
-                    <td>
-                        <strong>gemini-3.5-flash-lite</strong>
-                        <span class="rec-tag">Par défaut</span>
-                    </td>
-                    <td><code>15 RPM</code></td>
-                    <td><code>500 RPD</code></td>
-                    <td>Idéal pour les sessions de jeu prolongées. Réponses instantanées et fidélité audio optimale.</td>
-                </tr>
-                <tr>
-                    <td><strong>gemini-3.1-flash-lite</strong></td>
-                    <td><code>15 RPM</code></td>
-                    <td><code>500 RPD</code></td>
-                    <td>Alternative économique, ultra-rapide avec une faible empreinte de calcul.</td>
-                </tr>
-                <tr>
-                    <td><strong>gemma-4-26b</strong></td>
-                    <td><code>30 RPM</code></td>
-                    <td><code>14 400 RPD</code></td>
-                    <td>Usage intensif et flux continu pour de très gros volumes de dictée.</td>
-                </tr>
-            </tbody>
-        </table>
+        <div class="engines-grid">
+            <!-- AZURE SPEECH BOX -->
+            <div class="engine-box azure-active">
+                <div class="engine-header">
+                    <span class="engine-title">Microsoft Azure Speech</span>
+                    <span class="tag-pill cyan">Par défaut</span>
+                </div>
+                <p class="engine-desc">
+                    Reconnaissance et traduction vocale en <strong>streaming continu temps réel</strong> (SDK <code>TranslationRecognizer</code>). Idéal pour un affichage et une injection quasi-instantanée pendant vos parties de jeu.
+                </p>
+                <ul class="engine-specs">
+                    <li>⚡ <strong>Latence :</strong> Ultra-faible (streaming direct)</li>
+                    <li>🎁 <strong>Free Tier :</strong> 5 heures de traduction vocale / mois gratuites</li>
+                    <li>🌍 <strong>Régions :</strong> francecentral, westeurope, eastus...</li>
+                </ul>
+                <a href="https://portal.azure.com/" target="_blank" rel="noopener noreferrer" class="btn-link cyan">
+                    Portail Microsoft Azure ↗
+                </a>
+            </div>
 
-        <div class="pedagogy-callout">
-            <strong>Pourquoi le modèle <code>gemini-3.5-flash-lite</code> est sélectionné par défaut ?</strong><br>
-            Ce modèle concilie une vitesse de réponse quasi-instantanée (< 1 seconde), une excellente reconnaissance phonétique sur le bruit ambiant d'un microphone de jeu, et un quota gratuit de <strong>500 traductions par jour</strong> largement suffisant pour plusieurs heures de discussion in-game.
+            <!-- GOOGLE GEMINI BOX -->
+            <div class="engine-box gemini-active">
+                <div class="engine-header">
+                    <span class="engine-title">Google Gemini Flash</span>
+                    <span class="tag-pill orange">Alternatif</span>
+                </div>
+                <p class="engine-desc">
+                    Traitement unitaire par batch audio avec modèles multimodaux (<code>gemini-3.5-flash-lite</code>, <code>gemma-4-26b</code>). Excellente auto-détection universelle de la langue parlée.
+                </p>
+                <ul class="engine-specs">
+                    <li>🤖 <strong>Modèles :</strong> Gemini 3.5 Flash Lite, Gemma</li>
+                    <li>🎁 <strong>Free Tier :</strong> 500 requêtes / jour gratuites</li>
+                    <li>✨ <strong>Atout :</strong> Compréhension contextuelle avancée</li>
+                </ul>
+                <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener noreferrer" class="btn-link coral">
+                    Clé Google AI Studio ↗
+                </a>
+            </div>
         </div>
     </div>
 
-    <!-- SECTION 4 : MODE D'EMPLOI ET RÉGLAGES SYSTRAY -->
+    <!-- SECTION 2 : PROCÉDURE D'OBTENTION DES CLÉS -->
     <div class="card">
         <div class="section-title">
-            <img src="assets/setting.svg" alt="Réglages" class="section-icon">
-            <h2>3. Utilisation & Configuration Locale</h2>
+            <img src="assets/HelpR.svg" alt="Clés" class="section-icon">
+            <h2>2. Obtenir et Configurer vos Clés API</h2>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 16px;">
+            <!-- AZURE GUIDE -->
+            <div style="background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(34, 211, 238, 0.2); border-radius: 10px; padding: 18px;">
+                <h4 style="color: var(--cyan-accent); margin-bottom: 8px;">Option A : Clé Azure Speech Services (Recommandé pour le streaming)</h4>
+                <ol style="margin-left: 20px; color: var(--text-secondary); font-size: 0.90rem; line-height: 1.7;">
+                    <li>Rendez-vous sur le <a href="https://portal.azure.com/" target="_blank" style="color: var(--cyan-accent);">portail Azure</a> et créez une ressource gratuite <strong>Services Speech (Services Cognitifs)</strong>.</li>
+                    <li>Sélectionnez le niveau tarifaire gratuit <strong>F0 (Free)</strong> et votre région la plus proche (ex: <code>francecentral</code> ou <code>westeurope</code>).</li>
+                    <li>Copiez la <strong>Clé 1</strong> et collez-la dans les réglages du HUD (icône ⚙️) ou dans <code>config.json</code> sous <code>AZURE_SPEECH_KEY</code>.</li>
+                </ol>
+            </div>
+
+            <!-- GEMINI GUIDE -->
+            <div style="background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 94, 54, 0.2); border-radius: 10px; padding: 18px;">
+                <h4 style="color: var(--coral-bright); margin-bottom: 8px;">Option B : Clé Google AI Studio</h4>
+                <ol style="margin-left: 20px; color: var(--text-secondary); font-size: 0.90rem; line-height: 1.7;">
+                    <li>Connectez-vous sur <a href="https://aistudio.google.com/app/apikey" target="_blank" style="color: var(--coral-bright);">Google AI Studio</a> avec votre compte Google personnel.</li>
+                    <li>Cliquez sur <strong>"Create API Key"</strong> et copiez la clé générée (commençant par <code>AIzaSy...</code>).</li>
+                    <li>Basculez le moteur sur <em>Google Gemini</em> dans les réglages du HUD et collez votre clé.</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECTION 3 : MODE D'EMPLOI ET WORKFLOW -->
+    <div class="card">
+        <div class="section-title">
+            <img src="assets/setting.svg" alt="Usage" class="section-icon">
+            <h2>3. Mode d'Emploi & Workflow</h2>
         </div>
 
         <div class="usage-workflow">
             <div class="workflow-card">
                 <span class="workflow-icon">🎯</span>
                 <h4>1. Focus sur un champ texte</h4>
-                <p>Cliquez dans n'importe quel champ de saisie (chat du jeu Forza, Discord, WhatsApp, navigateur, document Word...). Grâce au <em>Focus Check</em>, l'enregistrement ne démarre que si un champ actif est détecté.</p>
+                <p>Cliquez dans n'importe quel champ de saisie (chat du jeu Forza, Discord, WhatsApp, Word...). Grâce au <em>Focus Check</em>, l'enregistrement ne démarre que si un champ éditable est actif.</p>
             </div>
             <div class="workflow-card">
                 <span class="workflow-icon">🎙️</span>
                 <h4>2. Parlez naturellement</h4>
-                <p>Pressez votre raccourci (par défaut <code>F8</code> au clavier ou <code>RS / R3</code> sur manette). Le son Windows est automatiquement atténué (Audio Ducking) pour garantir une écoute limpide.</p>
+                <p>Pressez votre raccourci (par défaut <code>F8</code> au clavier ou <code>RS / R3</code> sur manette). Le son Windows est automatiquement atténué (Audio Ducking) pour une écoute limpide.</p>
             </div>
             <div class="workflow-card">
                 <span class="workflow-icon">✨</span>
                 <h4>3. Traduction & Envoi immédiat</h4>
-                <p>Relâchez le raccourci : l'IA identifie votre langue parlée, la traduit vers la langue cible configurée, la colle directement au curseur (<code>Ctrl+V</code>) et valide avec <code>Entrée</code>.</p>
+                <p>Relâchez ou coupez le micro : la traduction est injectée au curseur (<code>Ctrl+V</code>) et validée avec <code>Entrée</code> si <code>AUTO_ENTER</code> est actif.</p>
             </div>
         </div>
 
-        <!-- ENCADRÉ SYSTRAY / REGLAGES -->
+        <!-- ENCADRÉ SYSTRAY -->
         <div class="systray-banner">
             <div class="systray-icon-box">
-                <img src="assets/setting.svg" alt="Roue Paramètres">
+                <img src="assets/setting.svg" alt="Paramètres">
             </div>
             <div class="systray-info">
-                <h4>Où configurer mes paramètres ?</h4>
+                <h4>Panneau de Réglages & Zone Systray</h4>
                 <p>
-                    Plus besoin de régénérer un fichier web ! Tous vos réglages (clé API, langue cible, niveau d'atténuation sonore, touches clavier et manette) sont désormais gérés <strong>directement depuis l'application</strong> :
-                    cliquez sur la roue crantée du HUD ou faites un clic droit sur l'icône dans la <strong>zone de notification Windows (Systray)</strong> à côté de l'horloge.
+                    Tous vos paramètres (moteur vocal, clés API, langue cible, niveau d'atténuation sonore, touches clavier et manette) sont ajustables <strong>directement depuis le HUD</strong> en cliquant sur la roue crantée ⚙️, ou par un clic droit sur l'icône dans la <strong>barre des tâches Windows (Systray)</strong> à côté de l'horloge.
                 </p>
             </div>
         </div>
     </div>
 
     <footer>
-        Speech to Translate • Utilitaire Windows Open-Source • Propulsé par Google Gemini & Gemma
+        Speech to Translate • Utilitaire Windows Open-Source • Propulsé par Azure Speech & Google Gemini
     </footer>
 
 </div>
